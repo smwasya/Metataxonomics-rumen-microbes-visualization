@@ -15,4 +15,4 @@ An example of the code executation
 
 For more elaboration about nf-core ampliseq pipeline please refer to [nf-core/ampliseq website](https://nf-co.re/ampliseq/2.7.0)
 
-Use the output in outdir/dada2 to proceed to R create the phyloseq object as illustrated in the [script}(https://github.com/SamuelMwasya/Metataxonomics-rumen-microbes-visualization/blob/main/Scripts/16S-rRNA-Bacteria%20.rmd)
+Use the output in outdir/dada2 to proceed to R create the phyloseq object as illustrated in the [script](https://github.com/SamuelMwasya/Metataxonomics-rumen-microbes-visualization/blob/main/Scripts/16S-rRNA-Bacteria%20.rmd)

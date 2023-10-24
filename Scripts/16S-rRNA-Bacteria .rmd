@@ -11,6 +11,84 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
+---
+
+```{r}
+#set user defined path
+setwd()
+file_path <- "path/to/bacteria"
+
+```
+
+```{r}
+#loading the required library
+library(phyloseq)
+library(ggplot2)
+```
+
+```{r}
+#rm(list=ls())
+#loading the ASV taxonomic table
+tax<-read.table("data/ASV_tax_species.tsv", header = T, row.names = 1,sep = "\t")
+head(tax)
+names(tax)
+tax<-tax[,-c(9:11)]
+#head(tax)
+tax<-t(tax)
+tax<-as.matrix(tax) #converting tax dataframe to a matrix
+#head(tax)
+tax<-(t(tax)) 
+tax<-tax_table(tax) #converting the tax matrix to phyloseq object
+#class(tax)
+#head(tax)
+```
+
+```{r}
+
+# loading the ASv_counts tables
+otu<-read.table("data/ASV_table.tsv", header = T, row.names=1,sep="\t")
+otu<-otu[,-c(21)]
+head(otu)
+names(otu)
+
+otu<-otu_table(otu,taxa_are_rows = TRUE) #converting otu matrix to phyloseq object.
+head(otu)
+```
+
+```{r}
+#combine the two physeq object i.e tax,otu
+
+physeq_b <-phyloseq(otu, tax)
+physeq_b
+#plot_bar(physeq, fill = "Class")
+```
+
+```{r}
+#importing the metadata
+meta<- read.table("data/bact_meta",sep = "\t", header = TRUE, row.names = 1)
+head(meta)
+#names(meta) = c("Sample_ID","Animal_Type",  "Microbiome.Domain","Location")
+names(meta)
+head(meta)
+meta<-sample_data(meta) #converting the metadata to a phyloseq object
+```
+
+```{r}
+# we now create a third object called random for mergingwith the other three object
+library("ape")
+random_tree <- rtree(ntaxa(physeq), rooted = TRUE, tip.label = taxa_names(physeq))
+plot(random_tree)
+
+```
+
+```{r}
+#merging the preceeding 3 objects.
+physeq1 <- merge_phyloseq(physeq, meta, random_tree)
+physeq1
+saveRDS(physeq1, file="physeq_rumenbacteria.rds")
+#readRDS(file ="/path/to/physeq_rumenbacteria.rds" ) #reading a .rds image
+```
+# Some packages above have conficts in libraries change to a different R session before proceeding down
 
 ```{r}
 #Load Packages

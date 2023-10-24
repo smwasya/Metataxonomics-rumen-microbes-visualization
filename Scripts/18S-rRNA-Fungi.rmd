@@ -12,6 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ## R Markdown
 
 ```{r}
+# Set user-defined file paths
+file_path <- "path/to/fungi/"
+
+```
+
+```{r}
 #Load Packages
 suppressPackageStartupMessages({
 require(csv)
@@ -45,7 +51,7 @@ library(patchwork)
 ```{r}
 
 #Read in Data
-ps1<-readRDS("C:/Samuel/icipe/merid/fungi/rds/physeq_fungi.rds")
+ps1 <- readRDS(file.path(file_path, "rds/physeq_fungi.rds"))
 ```
 
 ```{r}
@@ -64,19 +70,10 @@ ntaxa(ps2)
 ```
 
 ```{r}
+# Remove those taxa that are less than 20 in length 
 ps3 <- prune_taxa(taxa_sums(ps2) > 20, ps2)
 ps3
-
-saveRDS(ps3, "C:/Samuel/icipe/merid/fungi/rds/physeq_clean_fungi.rds")
 ```
-
-
-
-```{r}
-ps3 <- readRDS("C:/Samuel/icipe/merid/fungi/rds/physeq_clean_fungi.rds")
-```
-
-
 ```{r}
 
 #Extracting the filtered taxonomy and feature tables for barplot plotting
@@ -91,7 +88,7 @@ cumulation <- cumulation[order(cumulation$Total, decreasing = TRUE),]
 ```{r}
 #merging the blast taxonomic classification to blast abundance table
 merged_data <- tax_table
-write.csv(merged_data, file="C:/Samuel/icipe/merid/fungi/out-files/Taxonomic_Classificationf.csv")
+write.csv(merged_data, file="out-files/Taxonomic_Classificationf.csv")
 ```
 
 ```{r}
@@ -211,7 +208,7 @@ bar_all %>%
 dist_all<-bar_all %>%
   adorn_totals("row") %>%
   adorn_pct_formatting()
-write.csv(dist_all,"C:/Samuel/icipe/merid/fungi/data/All_Diversity_fungi.csv")
+write.csv(dist_all,"data/All_Diversity_fungi.csv")
 
 #gathering the data
 bar_all <- bar_all %>%
@@ -298,9 +295,9 @@ abundance_fungi
 
 
 ```{r}
-ggsave("C:/Samuel/icipe/merid/fungi/results/abundance/abundance_fungi.png", width=12, height=12,dpi=600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/abundance/abundance_fungi.jpeg", width=12, height=12,dpi=600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/abundance/abundance_fungi.svg", width=12, height=12,dpi=600)
+ggsave(file.path(file_path, "results/abundance/abundance_fungi.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/abundance/abundance_fungi.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/abundance/abundance_fungi.svg"), width=12, height=12, dpi=600)
 
 
 ```
@@ -338,12 +335,9 @@ beta_fungi <-p + stat_ellipse()  + labs(tag = "C")
 
 
 ```{r}
-ggsave("C:/Samuel/icipe/merid/fungi/results/beta/beta_fungi.png", width = 12, height = 12, dpi = 600)
-
-ggsave("C:/Samuel/icipe/merid/fungi/results/beta/beta_fungi.jpeg", width = 12, height = 12, dpi = 600)
-
-ggsave("C:/Samuel/icipe/merid/fungi/results/beta/beta_fungi.svg", width = 12, height = 12, dpi = 600)
-
+ggsave(file.path(file_path, "results/beta/beta_fungi.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/beta/beta_fungi.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/beta/beta_fungi.svg"), width=12, height=12, dpi=600)
 ```
 
 ### ALPHA DIVERSITY
@@ -427,9 +421,9 @@ fungi_shannon
 
 ```
 ```{r}
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/fungi_shannon.png", width = 12, height = 12, dpi = 600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/fungi_shannon.jpeg", width = 12, height = 12, dpi = 600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/fungi_shannon.svg", width = 12, height = 12, dpi = 600)
+ggsave(file.path(file_path, "results/alpha/shannon_fungi.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/shannon_fungi.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/shannon_fungi.svg"), width=12, height=12, dpi=600)
 ```
 
 ```{r}
@@ -469,9 +463,10 @@ fungi_chao1 <- fungi_chao1  + aes(x = fct_inorder(Animal_Type)) + theme(legend.p
 fungi_chao1
 ```
 ```{r}
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/fungi_chao1.png", width = 12, height = 12, dpi = 600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/fungi_chao1.jpeg", width = 12, height = 12, dpi = 600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/fungi_chao1.svg", width = 12, height = 12, dpi = 600)
+ggsave(file.path(file_path, "results/alpha/chao1_fungi.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/chao1_fungi.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/chao1_fungi.svg"), width=12, height=12, dpi=600)
+
 ```
 
 ```{r}
@@ -512,9 +507,9 @@ fungi_pielou
 
 ```
 ```{r}
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/fungi_pielou.png", width = 12, height = 12, dpi = 600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/fungi_pielou.jpeg", width = 12, height = 12, dpi = 600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/fungi_pielou.svg", width = 12, height = 12, dpi = 600)
+ggsave(file.path(file_path, "results/alpha/pielou_fungi.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/pielou_fungi.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/pielou_fungi.svg"), width=12, height=12, dpi=600)
 ```
 
 ### merge
@@ -530,9 +525,9 @@ fungi_pielou
 alpha_fungi <- ggarrange(fungi_shannon, fungi_chao1, fungi_pielou, labels = c("G", "H", "I"), nrow = 1)
 ```
 ```{r}
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/alpha_fungi.png", width = 12, height = 12, dpi = 600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/alpha_fungi.jpeg", width = 12, height = 12, dpi = 600)
-ggsave("C:/Samuel/icipe/merid/fungi/results/alpha/alpha_fungi.svg", width = 12, height = 12, dpi = 600)
+ggsave(file.path(file_path, "results/alpha/alpha_fungi.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/alpha_fungi.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/alpha_fungi.svg"), width=12, height=12, dpi=600)
 ```
 
 
@@ -622,10 +617,5 @@ venn_fun <- venn.diagram(vennlist,
                       lty ='dotted',
                       imagetype = "svg", output=TRUE ) 
 grid::grid.draw(venn_fun)
-```
-
-
-```{r}
-p <- c( "Caecomyces" ,   "Neocallimastix" , "Anaeromyces", "Pecoramyces", "Cyllamyces", "Orpinomyces", "Cleistothelebolus" , "Oontomyces", "Liebetanzomyces","Piromyces", "Cladosporium" ,   "Nigrospora", "Neodidymelliopsis", "Ustilago", "Aureobasidium", "Aplosporella", "Epicoccum" , "Naganishia", "Curvularia", "Sporormiella", "Cystobasidium", "Anthracocystis" , "Coniella", "Gymnopus", "Lyomyces", "Hohenbuehelia" , "Neosulcatispora", "Exserohilum", "Filobasidium", "Stagonosporopsis", "Allophoma", "Paraconiothyrium" , "Ectophoma", "Arthrocladium", "Paraboeremia" , "Podaxis", "Hannaella",  "Hyphoderma", "Neoascochyta", "Cintractia" ,  "Symmetrospora" , "Wallemia","Alternaria", "Eremothecium","Hazslinszkyomyces" ,  "Nothophoma" ,"Exophiala", "Westerdykella" ,  "Rhodotorula" ,  "Sordaria" , "Clitopilus", "Neophysalospora","Pseudopithomyces", "Ciliophora" ,"Rhamphoria", "Pseudocoleophoma", "Buckleyzyma",  "Paracamarosporium", "Paraophiobolus", "Remotididymella", "Arthrinium",  "Preussia",  "Hyphozyma", "Moesziomyces", "Entyloma",  "Millerozyma",  "Graphiola",  "Kwoniella",  "Pleiochaeta","Neophaeococcomyces", "Microdochium", "Vishniacozyma" , "Papiliotrema",  "Dictyosporium","Resinicium", "Unguiculariopsis",  "Parapyrenochaeta",     "Magnibotryascoma",  "Schizopora" ,   "Phaeosphaeria",  "Arcticomyces", "Cryptococcus", "Auriculoscypha", "Sydowia", "Candida",  "Pseudozyma",  "Saitozyma", "Robillarda", "Apseudocercosporella", "Knufia", "Pilobolus", "Cutaneotrichosporon" )
 ```
 

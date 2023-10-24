@@ -86,7 +86,7 @@ plot(random_tree)
 physeq1 <- merge_phyloseq(physeq, meta, random_tree)
 physeq1
 saveRDS(physeq1, file="physeq_rumenbacteria.rds")
-#readRDS(file ="/path/to/physeq_rumenbacteria.rds" ) #reading a .rds image
+#readRDS(file ="path/to/physeq_rumenbacteria.rds" ) #reading a .rds image
 ```
 # Some packages above have conficts in libraries change to a different R session before proceeding down
 
@@ -123,7 +123,8 @@ library(patchwork)
 ```{r}
 
 #Read in Data
-ps1<-readRDS("C:/Samuel/icipe/merid/bacteria/tow-truck/physeq_rumenbacteria.rds")
+ps1 <- readRDS(file.path(file_path, "rds/physeq_bacteria.rds"))
+
 ```
 
 ```{r}
@@ -145,11 +146,6 @@ ntaxa(ps2)
 ps3 <- prune_taxa(taxa_sums(ps2) > 20, ps2)
 ps3
 
-saveRDS(ps3, "C:/Samuel/icipe/merid/bacteria/tow-truck/ps3_bact.rds")
-```
-
-```{r}
-ps3 <- readRDS("C:/Samuel/icipe/merid/bacteria/tow-truck/ps3_bact.rds")
 ```
 
 ```{r}
@@ -166,7 +162,7 @@ cumulation <- cumulation[order(cumulation$Total, decreasing = TRUE),]
 ```{r}
 #merging the blast taxonomic classification to blast abundance table
 merged_data <- tax_table
-write.csv(merged_data, file="C:/Samuel/icipe/merid/bacteria/data/Taxonomic_Classification.csv")
+write.csv(merged_data, file="data/Taxonomic_Classification.csv")
 ```
 
 ```{r}
@@ -296,7 +292,7 @@ bar_all %>%
 dist_all<-bar_all %>%
   adorn_totals("row") %>%
   adorn_pct_formatting()
-write.csv(dist_all,"C:/Samuel/icipe/merid/bacteria/data/All_Diversity_bacteria.csv")
+write.csv(dist_all,"C:/Sam/bacteria/data/All_Diversity_bacteria.csv")
 
 #gathering the data
 bar_all <- bar_all %>%
@@ -388,11 +384,9 @@ abundance_bact
 ```
 
 ```{r}
-ggsave("C:/Samuel/icipe/merid/bacteria/plots/abundance_bact-Genus.png", width=12, height=12,dpi=600)
-ggsave("C:/Samuel/icipe/merid/bacteria/plots/abundance_bact-Genus.jpeg", width=12, height=12,dpi=600)
-ggsave("C:/Samuel/icipe/merid/bacteria/plots/abundance_bact-Genus.svg", width=12, height=12,dpi=600)
-
-#saveRDS(preg_all_bact, "D:/Rstudio/R/metabarcoding/Bacteria/objects_rds/preg_all_bact.rds")
+ggsave(file.path(file_path, "results/abundance/abundance_bacteria.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/abundance/abundance_bacteria.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/abundance/abundance_bacteria.svg"), width=12, height=12, dpi=600)
 
 ```
 
@@ -521,9 +515,9 @@ bact_shannon
 
 ```
 ```{r}
-ggsave("D:/merid/bacteria/bact_shannon.png", width = 12, height = 12, dpi = 600)
-ggsave("D:/merid/bacteria/bact_shannon.jpeg", width = 12, height = 12, dpi = 600)
-ggsave("D:/merid/bacteria/bact_shannon.svg", width = 12, height = 12, dpi = 600)
+ggsave(file.path(file_path, "results/alpha/bact_shannon.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/bact_shannon.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/bact_shannon.svg"), width=12, height=12, dpi=600)
 ```
 
 ```{r}
@@ -563,9 +557,9 @@ bact_chao1 <- bact_chao1  + aes(x = fct_inorder(Animal_Type)) + theme(legend.pos
 bact_chao1
 ```
 ```{r}
-ggsave("D:/merid/bacteria/bact_chao1.png", width = 12, height = 12, dpi = 600)
-ggsave("D:/merid/bacteria/bact_chao1.jpeg", width = 12, height = 12, dpi = 600)
-ggsave("D:/merid/bacteria/bact_chao1.svg", width = 12, height = 12, dpi = 600)
+ggsave(file.path(file_path, "results/alpha/bact_chao1.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/bact_chao1.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/bact_chao1.svg"), width=12, height=12, dpi=600)
 ```
 
 ```{r}
@@ -606,9 +600,9 @@ bact_pielou
 
 ```
 ```{r}
-ggsave("D:/merid/bacteria/bact_pielou.png", width = 12, height = 12, dpi = 600)
-ggsave("D:/merid/bacteria/bact_pielou.jpeg", width = 12, height = 12, dpi = 600)
-ggsave("D:/merid/bacteria/bact_pielou.svg", width = 12, height = 12, dpi = 600)
+ggsave(file.path(file_path, "results/alpha/bact_pielou.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/bact_pielou.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/bact_pielou.svg"), width=12, height=12, dpi=600)
 ```
 
 ### merge
@@ -624,9 +618,9 @@ bact_pielou
 alpha_bact <- ggarrange(bact_shannon, bact_chao1, bact_pielou, labels = c("D", "E", "F"), nrow = 1)
 ```
 ```{r}
-ggsave("D:/merid/bacteria/alpha_bact.png", width = 12, height = 12, dpi = 600)
-ggsave("D:/merid/bacteria/alpha_bact.jpeg", width = 12, height = 12, dpi = 600)
-ggsave("D:/merid/bacteria/alpha_bact.svg", width = 12, height = 12, dpi = 600)
+ggsave(file.path(file_path, "results/alpha/bact_alpha.png"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/bact_alpha.jpeg"), width=12, height=12, dpi=600)
+ggsave(file.path(file_path, "results/alpha/bact_alpha.svg"), width=12, height=12, dpi=600)
 ```
 
 
@@ -758,12 +752,6 @@ venn_genus <- venn.diagram(vennlist,
 grid::grid.draw(venn_genus)
 
 ```
-
-```{r}
-p<-c("Rikenellaceae RC9 gut group", "Christensenellaceae R-7 group",     
-"Prevotella",  "NK4A214 group", "Saccharofermentans", "Butyrivibrio", "Psychrobacter", "Lachnospiraceae XPB1014 group" , "Candidatus Saccharimonas", "Succiniclasticum", "Prevotellaceae UCG-003", "Prevotellaceae UCG-001" , "[Ruminococcus] gauvreauii group", "Lachnospiraceae AC2044 group" , "UCG-005",  "Prevotellaceae NK3B31 group" , "Lachnospiraceae NK3A20 group" ,  "Treponema" ,  "Family XIII AD3011 group", "SP3-e08" ,  "Acinetobacter" ,  "p-1088-a5 gut group",  "Pseudobutyrivibrio",  "Anaerovorax", "[Eubacterium] ruminantium group", "Carnobacterium" ,   "Papillibacter", "Shuttleworthia", "Acetitomaculum" , "Ruminococcus",  "Lachnospiraceae UCG-008",  "Marvinbryantia", "Prevotellaceae UCG-004", "Lachnospiraceae UCG-006" ,  "Anaeroplasma" , "[Eubacterium] hallii group", "Bacillus",  "Moryella", "Pseudomonas", "Lachnospiraceae NK4A136 group", "probable genus 10" ,  "Blautia", "Oribacterium",  "Desulfovibrio", "Veillonellaceae UCG-001" , "Defluviitaleaceae UCG-011", "Lachnospiraceae FCS020 group", "Olsenella",  "Lachnospiraceae UCG-009", "CPla-4 termite group",  "Ruminiclostridium", "Lachnospiraceae ND3007 group",  "FD2005", "Selenomonas", "Family XIII UCG-001",  "Incertae Sedis", "[Eubacterium] nodatum group", "Lachnospira" ,"Fretibacterium" , "UCG-002", "U29-B03",  "V9D2013 group", "Solobacterium", "[Eubacterium] siraeum group",  "Roseburia", "Pirellula", "possible genus Sk018", "Lachnospiraceae UCG-002",  "Syntrophococcus", "Monoglobus","[Eubacterium] ventriosum group",  "UCG-007" , "Mogibacterium", "Fibrobacter", "Planomicrobium","UCG-004",  "Prevotellaceae Ga6A1 group","[Eubacterium] saphenum group", "DNF00809","[Eubacterium] brachy group", "Planococcus",  "Amnipila", "Arthrobacter", "Lachnospiraceae FE2018 group", "Coprococcus","Streptococcus", "[Eubacterium] xylanophilum group", "Erysipelotrichaceae UCG-009", "NED5E9", "UCG-001", "Lachnoclostridium", "Schwartzia", "Anaerovibrio",  "[Anaerorhabdus] furcosa group","Solibacillus", "Atopobium","Desemzia", "[Eubacterium] cellulosolvens group", "Lachnospiraceae UCG-010", "Agathobacter", "Mailhella" , "Anaerofustis", "UCG-009","DEV114", "Denitrobacterium" , "Succinivibrio" , "Enterorhabdus","Alloprevotella" ,"Sphaerochaeta", "Lachnobacterium","Pseudoramibacter", "[Eubacterium] oxidoreducens group" , "GCA-900066575", "Paludicola","Catenisphaera" ,"Quinella", "Prevotellaceae YAB2003 group","Howardella", "[Bacteroides] pectinophilus group", "possible genus Sk003-Sk004", "Sediminispirochaeta" ,"Erysipelotrichaceae UCG-008", "Prevotella_7","Anaerosporobacter","Tyzzerella" ,  "Catenibacillus", "CAG-352", "Pyramidobacter" ,  "Mycoplasma", "Psychrobacillus",  "Desulfobulbus","Lachnospiraceae UCG-001", "Anaerobiospirillum","Corynebacterium", "Suttonella","Candidatus Soleaferrea","Succinivibrionaceae UCG-002" , "Shewanella" ,  "Raoultibacter",  "Sharpea", "Erysipelotrichaceae UCG-006", "Colidextribacter")
-```
-
 ```{r}
 # Generate a color palette of 142 colors
 palette <- colors()[1:142]

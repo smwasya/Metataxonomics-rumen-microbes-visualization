@@ -1,5 +1,5 @@
 
-# WE use the nf-core Ampliseq pipeline in this project
+# We use the nf-core Ampliseq pipeline in this project
 
 
 First we need to do preprocessing and generate ASV count matrix using the script

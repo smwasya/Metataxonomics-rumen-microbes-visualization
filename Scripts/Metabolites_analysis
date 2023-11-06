@@ -1,0 +1,72 @@
+#####
+#cheking working directory
+getwd()
+setwd("")
+#loading and installing necessary libraries
+#install.packages("factoextra")
+#installed.packages("FactoMineR")
+#install.packages("corrplot")
+library(tidyverse)
+library(dplyr)
+library(factoextra)
+library(FactoMineR)
+library(corrplot)
+library(ggplot2)
+library(RColorBrewer)
+library(gplots)
+library(cluster)
+#loading dataset
+
+Heatmap1<- read_excel("RumenMet.xlsx")
+Heatmap2<-data.matrix(Heatmap1)
+dim(Heatmap2)
+
+respca = PCA(X=Heatmap2, scale.unit=TRUE, graph=F, ncp=5, quali.sup=1:2)
+pam2 <- pam(respca$ind$coord[, 1:2], 2)
+pam3 <- pam(respca$ind$coord[, 1:2], 3)
+
+plot(respca$ind$coord[, 1:2], col = pam2$cluster, pch = 19)
+
+points(pam2$medoids, cex = 2, col = "purple", lwd = 3)
+
+par(mfrow = c(1, 2))
+
+pam3sample <- pam(sample(respca$ind$coord[, 1:2], 12), 2)
+pam7sample <- pam(sample(respca$ind$coord[, 1:2], 12), 3)
+
+plot(silhouette(pam3sample), main = "k=2")  # plot silhouette of PAM with k=3  
+plot(silhouette(pam7sample), main = "k=3")
+
+expCom <- Heatmap2[, c(2:241)]
+eucl <- dist(t(expCom))
+
+hc.average <- hclust(eucl, method = "average")
+hc.ward <- hclust(eucl, method = "ward.D")
+
+par(mfrow=c(1,1))
+
+plot(hc.average, main = "Average linkage \n euclidian")
+
+plot(hc.ward, main = "Ward \n euclidian")
+
+clusters <- cutree(hc.ward, k = 5)
+
+table(clusters)
+
+names(clusters)[clusters == 1]
+
+library(RColorBrewer) ## package useful for colors
+library(gplots)
+
+colSpecies = c(Camel='red', Cow='green', Goat='blue', Sheep='purple')
+
+myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
+
+hclusfun <- function(x) hclust(dist(x), method="ward.D")
+
+expCom <- as.matrix(expCom)
+
+heatmap.2(t(expCom),dendrogram="both", hclustfun = hclusfun, scale="row", trace="none",key=TRUE,col=myPalette,cexRow = 0.2,cexCol=0.2,main= "Metabolite distribution ", xlab = "livestock species", ylab = "Rumen Metabolite")
+
+heatmap.2(t(expCom),dendrogram="both", hclustfun = hclusfun, scale="row", trace="none",key=FALSE,col=myPalette,cexRow = 0.2,cexCol=0.2,main= "Metabolite distribution ", xlab = "Livestock species", ylab = "Rumen Metabolites")
+

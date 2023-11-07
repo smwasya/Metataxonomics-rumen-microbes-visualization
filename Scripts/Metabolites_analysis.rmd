@@ -1,3 +1,4 @@
+```{r}
 #####
 #cheking working directory
 getwd()
@@ -70,3 +71,5 @@ heatmap.2(t(expCom),dendrogram="both", hclustfun = hclusfun, scale="row", trace=
 
 heatmap.2(t(expCom),dendrogram="both", hclustfun = hclusfun, scale="row", trace="none",key=FALSE,col=myPalette,cexRow = 0.2,cexCol=0.2,main= "Metabolite distribution ", xlab = "Livestock species", ylab = "Rumen Metabolites")
 
+
+```

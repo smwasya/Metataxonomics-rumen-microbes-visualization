@@ -17,13 +17,6 @@ file_path <- "path/to/fungi/"
 
 ```
 
----
-title: "physeq_fun"
-author: "Samuel"
-date: "2023-07-06"
-output: html_document
----
-
 ```{r}
 #loading the required library
 library(phyloseq)
